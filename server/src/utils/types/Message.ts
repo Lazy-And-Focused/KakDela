@@ -1,15 +1,24 @@
+import mongoose from 'mongoose';
 import { User } from './Users';
 
-export type Attachment = {
+export interface Attachment {
     id: string;
     buffer: Buffer|string;
 };
 
-export type Message = {
+export interface Message {
     id: string;
     content: string;
 
-    attachments: Attachment[];
+    attachments?: Attachment[];
 
     user: User;
 };
+
+export interface CreateMessageType {
+    id?: string;
+    content: string;
+    attachments?: Attachment[];
+
+    user: User;
+}

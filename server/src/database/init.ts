@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { createMessage } from "./logic/Messages";
 
 export default async(): Promise<void> =>
 {

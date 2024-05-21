@@ -2,9 +2,10 @@ import mongoose, { Schema } from 'mongoose';
 import { Message } from '../../utils/types/Message';
 
 const dbMessagesSchema = new Schema<Message>({
-    id: { type: mongoose.SchemaTypes.String, required: true },
+    id: { type: mongoose.SchemaTypes.String, required: false, unique: true },
+    content: { type: mongoose.SchemaTypes.String, required: true },
     user: {
-        id: { type: mongoose.SchemaTypes.String, required: true },
+        id: { type: mongoose.SchemaTypes.String, required: true, unique: false },
         username: { type: mongoose.SchemaTypes.String, required: true },
         global_name: { type: mongoose.SchemaTypes.String, required: false },
         avatar_url: { type: mongoose.SchemaTypes.String, required: false },

@@ -1,18 +1,9 @@
-import MessageDatabase from '../schemas/Messages'
+import MessageDatabase from '../schemas/Messages';
 
 import { Status } from "src/utils/types/Database";
-import { Attachment } from "src/utils/types/Message"
-import { User } from "src/utils/types/Users"
+import { CreateMessageType } from "src/utils/types/Message";
 
-type CreateMessageType = {
-    content: string;
-    attachments: Attachment[];
-
-    user: User;
-}
-
-export const createMessage = async(msg: CreateMessageType): Promise<Status> =>
-{
+export const createMessageDB = async(msg: CreateMessageType): Promise<Status> => {
     try {
         const createdMessage = await MessageDatabase.create(msg);
 
@@ -37,8 +28,7 @@ export const createMessage = async(msg: CreateMessageType): Promise<Status> =>
     };
 };
 
-export const getMessage = async(id: string): Promise<Status> =>
-{
+export const getMessageDB = async(id: string): Promise<Status> => {
     try {
         const msg = await MessageDatabase.find({id: id});
 
@@ -63,10 +53,9 @@ export const getMessage = async(id: string): Promise<Status> =>
     };
 };
 
-export const getMessages = async(length: number, skip: number): Promise<Status> =>
-{
+export const getMessagesDB = async(length: number, skip: number): Promise<Status> => {
     try {
-        const list = await MessageDatabase.find({}, ['id'], { limit: length, skip: skip });
+        const list = await MessageDatabase.find({}, ['content'], { limit: length, skip: skip });
 
         if(!list)
             return {
@@ -86,5 +75,5 @@ export const getMessages = async(length: number, skip: number): Promise<Status> 
             type: 'error',
             error: err
         };
-    }
+    };
 };
