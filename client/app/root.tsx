@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       {/* Временно (стили) */}
-      <body className="h-screen bg-white dark:bg-black">
+      <body className="h-screen bg-white dark:bg-zinc-900">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -34,4 +34,4 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
-}
+};
