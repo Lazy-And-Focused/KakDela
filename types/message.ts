@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
-import { User } from './Users';
+import { User } from './user';
 
 export interface Attachment {
     id: string;
-    buffer: Buffer|string;
+    buffer: ArrayBuffer|string; // ArrayBuffer тоже самое, что и Buffer ?
 };
 
 export interface Message {

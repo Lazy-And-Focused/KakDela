@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
 import { getUserService } from "../../services/users/index"
-import { User } from "../../utils/types/Users";
+import { User } from "types/user";
 
 export async function getUserController(req: Request, res: Response) {
     const u = req.user as User;

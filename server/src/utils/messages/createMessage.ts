@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { createMessageDB } from '../../database/logic/Messages';
-import { CreateMessageType, Message } from '../types/Message'
-import { Status } from "../types/Database";
+import { createMessageDB } from 'database/logic/Messages';
+import { CreateMessageType, Message } from 'types/message'
+import { Status } from "types/database";
 
 export const createMessage = async(req: Request, res: Response) => {
     try {

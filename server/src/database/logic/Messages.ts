@@ -1,7 +1,7 @@
 import MessageDatabase from '../schemas/Messages';
 
-import { Status } from "src/utils/types/Database";
-import { CreateMessageType } from "src/utils/types/Message";
+import { Status } from "types/database";
+import { CreateMessageType } from "types/message";
 
 export const createMessageDB = async(msg: CreateMessageType): Promise<Status> => {
     try {

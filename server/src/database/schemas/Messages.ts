@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { Message } from '../../utils/types/Message';
+import { Message } from 'types/message';
 
 const dbMessagesSchema = new Schema<Message>({
     id: { type: mongoose.SchemaTypes.String, required: false, unique: true },

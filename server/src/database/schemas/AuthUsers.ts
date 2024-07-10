@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { AuthUser } from "src/utils/types/Users";
+import { AuthUser } from "types/user";
 
 const UserSchema = new Schema<AuthUser>({
     discordId: {
