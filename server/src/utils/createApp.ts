@@ -18,7 +18,7 @@ export const createApp = (): Express => {
         saveUninitialized: false,
         cookie: { maxAge: 60000 * 60 * 24 * 7 },
         store: store.create({
-            mongoUrl: 'mongodb://127.0.0.1/discord_dashboard'
+            mongoUrl: 'mongodb://127.0.0.1/chat_with_discord_auth'
         })
     }));
 

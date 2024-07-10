@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
-import { createApp } from './utils/createApp';
-import databaseInit from './database/init';
+import { createApp } from 'utils/createApp';
+import databaseInit from 'database/init';
 
 config({ path: "../.env" });
 

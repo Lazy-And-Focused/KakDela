@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { isAuthenticated } from '../../utils/middlewares';
-import { createMessage } from "src/utils/messages/createMessage";
+import { isAuthenticated } from 'utils/middlewares';
+import { createMessage } from "utils/messages/createMessage";
 
 const router = Router();
 

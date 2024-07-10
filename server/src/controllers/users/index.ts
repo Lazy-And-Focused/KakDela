@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import { getUserService } from "../../services/users/index"
+import { getUserService } from "services/users/index"
 import { User } from "types/user";
 
 export async function getUserController(req: Request, res: Response) {
