@@ -1,14 +1,21 @@
 import { config } from 'dotenv';
-import express from 'express';
+import { createApp } from './utils/createApp';
+import databaseInit from './database/init';
 
-const app = express();
 config({ path: "../.env" });
 
-app.get('/', (req, res) =>
-{
-  res.send('Hello World!');
-});
+databaseInit();
 
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(`Example app listening on port localhost:${process.env.SERVER_PORT}`)
-});
+const main = () => {
+  try {
+    const app = createApp();
+    
+    app.listen(process.env.SERVER_PORT, () => {
+      console.log(`Example app listening on port localhost:${process.env.SERVER_PORT}`)
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+main();
