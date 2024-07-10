@@ -11,6 +11,6 @@ const UserSchema = new Schema<AuthUser>({
     refreshToken: {type: mongoose.SchemaTypes.String, require: true},
 });
 
-const database = mongoose.model('users', UserSchema);
+const database = mongoose.model('AuthUsers', UserSchema);
 
 export default database;
