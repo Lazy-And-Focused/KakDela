@@ -1,6 +1,6 @@
 import axios from "axios";
-import User from 'database/schemas/AuthUsers'
-import { PartialUser } from "types/user";
+import User from 'database/schemas/auth-user.schema'
+import { PartialUser } from "types/user.type";
 
 export const getUserService = async (id: string) => {
     const user = await User.findById(id);

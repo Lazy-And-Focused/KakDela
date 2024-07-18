@@ -1,8 +1,8 @@
 export type User = {
-    id: string;
-    avatar_url?: string;
-    username: string;
-    global_name?: string;
+    id: string,
+    avatar_url?: string,
+    username: string,
+    global_name?: string,
 };
 
 export interface AuthUser {
@@ -26,4 +26,4 @@ export type PartialUser = {
     banner_color: string,
     locale: string,
     verified: boolean
-}
+};

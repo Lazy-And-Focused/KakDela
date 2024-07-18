@@ -2,7 +2,7 @@ import { config } from 'dotenv'
 import passport from "passport";
 import { Profile, Strategy } from "passport-discord";
 import { VerifyCallback } from 'passport-oauth2';
-import UserDatabase from 'database/schemas/AuthUsers';
+import UserDatabase from 'database/schemas/auth-user.schema';
 
 config({ path: '../.env' });
 

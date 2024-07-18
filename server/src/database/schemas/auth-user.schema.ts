@@ -1,14 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-import { AuthUser } from "types/user";
+import type { AuthUser } from "types/user.type";
 
 const UserSchema = new Schema<AuthUser>({
-    discordId: {
-        type: mongoose.SchemaTypes.String,
-        require: true,
-        unique: true,
-    },
+    discordId: { type: mongoose.SchemaTypes.String, require: true, unique: true },
     accessToken: {type: mongoose.SchemaTypes.String, require: true},
-    refreshToken: {type: mongoose.SchemaTypes.String, require: true},
+    refreshToken: {type: mongoose.SchemaTypes.String, require: true}
 });
 
 const database = mongoose.model('AuthUsers', UserSchema);

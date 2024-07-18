@@ -1,7 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
-import { Message } from 'types/message';
+import mongoose from "mongoose";
 
-const dbMessagesSchema = new Schema<Message>({
+export const MessageSchema = {
     id: { type: mongoose.SchemaTypes.String, required: false, unique: true },
     content: { type: mongoose.SchemaTypes.String, required: true },
     user: {
@@ -15,8 +14,4 @@ const dbMessagesSchema = new Schema<Message>({
             buffer: { type: mongoose.SchemaTypes.Buffer, required: true }
         }
     ]
-});
-
-const database = mongoose.model('Messages', dbMessagesSchema);
-
-export default database;
+};
