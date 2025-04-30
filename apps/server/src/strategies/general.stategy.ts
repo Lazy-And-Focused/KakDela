@@ -1,11 +1,9 @@
-import { Models } from "lafka/database";
-
-const { auth_users: AuthUsers } = new Models();
+import Auth from "database/models/auth.model";
 
 import passport = require("passport");
 
 import Authenticator from "./authenticator";
-import { AuthUser } from "lafka/types/auth/auth-user.types";
+import { KakDela } from "@kakdela/types";
 
 class GeneralStrategy {
   protected readonly _passport: passport.PassportStatic = passport;
@@ -16,7 +14,7 @@ class GeneralStrategy {
 
     this._authenticator = new Authenticator(this._passport);
   }
-  
+
   public readonly initialize = () => {
     return this._passport.initialize();
   };
@@ -34,7 +32,7 @@ class GeneralStrategy {
   }
 
   private serializer() {
-    this._passport.serializeUser((user: AuthUser, done) => {
+    this._passport.serializeUser((user: any, done) => {
       return done(null, {
         id: user.id,
         profile_id: user.profile_id,
@@ -44,14 +42,14 @@ class GeneralStrategy {
         refresh_token: user.refresh_token,
 
         created_at: user.created_at,
-        type: user.type
+        type: user.type,
       });
     });
 
     this._passport.deserializeUser(async (u: string, done) => {
       try {
-        const user = await AuthUsers.model.findOne({
-          id: u
+        const user = await Auth.findOne({
+          id: u,
         });
 
         return user
@@ -64,8 +62,8 @@ class GeneralStrategy {
               refresh_token: user.refresh_token,
 
               created_at: user.created_at,
-              type: user.type
-            } as AuthUser)
+              type: user.type,
+            } as unknown as KakDela.IUser)
           : done(null, null);
       } catch (err) {
         console.error(err);
