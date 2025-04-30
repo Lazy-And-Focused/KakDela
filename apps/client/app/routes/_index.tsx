@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
-import { CiLogin } from 'react-icons/ci'
+import { Link } from "@remix-run/react";
+import { CiLogin } from "react-icons/ci";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,11 +20,14 @@ export default function Index() {
           Добро пожаловать в Шляполяндию
         </h1>
         <hr className="mb-8 w-full border border-black/50 dark:border-white/50" />
-        <button className="py-2 px-4 w-full max-w-60 rounded gap-2 flex flex-row justify-between items-center bg-slate-300 dark:bg-slate-700 text-center text-black dark:text-white" onClick={() => (window.location.href = 'http://localhost:3001/api/auth/discord')}>
+        <Link
+          className="py-2 px-4 w-full max-w-60 rounded gap-2 flex flex-row justify-between items-center bg-slate-300 dark:bg-slate-700 text-center text-black dark:text-white"
+          to={"http://localhost:3001/api/auth/discord"}
+        >
           <p>Авторизоваться</p>
-          <CiLogin size={24}/>
-        </button>
+          <CiLogin size={24} />
+        </Link>
       </div>
     </div>
   );
-};
+}
