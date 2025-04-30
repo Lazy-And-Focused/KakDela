@@ -2,16 +2,16 @@
   "compilerOptions": {
     "target": "ES2024",
     "module": "CommonJS",
-    "rootDir": "./",
+    "rootDir": "./src",
     "outDir": "./dist",
     "removeComments": true,
+    "declaration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
     "skipLibCheck": true, 
-    "baseUrl": "./",
   },
   "include": ["./**/*.ts"]
 }

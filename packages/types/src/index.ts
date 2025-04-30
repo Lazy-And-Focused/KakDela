@@ -16,8 +16,6 @@ export namespace KakDela {
   /* 
     ACCOUNTS
   */
-
-
   export interface IUser {
     id: string;
 
@@ -27,20 +25,26 @@ export namespace KakDela {
     global_name?: string;
   };
 
+  export const AUTH_TYPES = [
+    "discord"
+  ] as const;
+  export type AuthTypes = (typeof AUTH_TYPES)[number];
   export interface IAuth {
     id: string;
-    serviceId: string;
+    service_id: string;
+    profile_id: string;
     
     access_token: string;
     refresh_token: string;
-  };
 
+    created_at: string;
+
+    type: AuthTypes;
+  };
 
   /* 
     MESSAGES
   */
-
-
  export type IAttachment = string; // URL to attachment
  
  export interface IMessage {
@@ -49,12 +53,6 @@ export namespace KakDela {
     
     content: string;
 
-    attachments?: IAttachment[];
-  };
-
-  export interface ICreateMessageType {
-    content: string;
-    user_id: string;
     attachments?: IAttachment[];
   };
 }

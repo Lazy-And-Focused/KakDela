@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
   "author": {
     "name": "Lazy-And-Focused",
     "url": "https://laf-info.netlify.app/",
