@@ -1,21 +1,10 @@
-import { config } from 'dotenv';
-import { createApp } from './utils/createApp';
-import databaseInit from './database/init';
+import Env from "./env";
 
-config({ path: "../.env" });
+import express from "express";
 
-databaseInit();
+import connect from "database/connect";
+import App from "./app";
 
-const main = () => {
-  try {
-    const app = createApp();
-    
-    app.listen(process.env.SERVER_PORT, () => {
-      console.log(`Example app listening on port localhost:${process.env.SERVER_PORT}`)
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
+connect(new Env().get("MONGO_URL"));
 
-main();
+export default new App(express()).listen();

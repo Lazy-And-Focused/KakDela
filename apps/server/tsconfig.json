@@ -12,6 +12,11 @@
     "strictNullChecks": true,
     "skipLibCheck": true, 
     "baseUrl": "./",
+    "paths": {
+      "database/*": ["./src/database/*"],
+      "api/*": ["./src/api/*"],
+      "env": ["./src/env"]
+    }
   },
   "include": ["./**/*.ts"]
 }

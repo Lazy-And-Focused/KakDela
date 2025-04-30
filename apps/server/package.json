@@ -1,21 +1,23 @@
 {
-  "name": "server",
-  "author": {
-    "name": "Lazy-And-Focused",
-    "url": "https://laf-info.netlify.app/",
-    "email": "love.laf.command@gmail.com"
-  },
-  "contributors": [
-    {
-      "name": "FOCKUSTY",
-      "email": "viserd.yt@gmail.com",
-      "url": "http://fockusty.netlify.app/"
-    }
-  ],
+	"name": "server",
+	"author": {
+		"name": "Lazy-And-Focused",
+		"url": "https://laf-info.netlify.app/",
+		"email": "love.laf.command@gmail.com"
+	},
+	"contributors": [
+		{
+			"name": "FOCKUSTY",
+			"email": "viserd.yt@gmail.com",
+			"url": "http://fockusty.netlify.app/"
+		}
+	],
 	"dependencies": {
+		"@types/cors": "^2.8.17",
 		"@types/express-session": "^1.18.0",
 		"@types/passport-discord": "^0.1.13",
 		"@types/passport-oauth2": "^1.4.16",
+		"cors": "^2.8.5",
 		"dotenv": "catalog:",
 		"express": "^4.19.2",
 		"express-session": "^1.18.0",
@@ -25,6 +27,7 @@
 		"passport-oauth2": "^1.8.0"
 	},
 	"devDependencies": {
+		"@kakdela/types": "workspace:^",
 		"@types/express": "^4.17.21",
 		"@types/node": "catalog:",
 		"@types/passport": "^1.0.16",
