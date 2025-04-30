@@ -12,6 +12,7 @@
     "apps/**"
   ],
   "scripts": {
+    "build:packages": "pnpm --filter ./packages/** build"
   },
   "keywords": [],
   "packageManager": "pnpm@10.4.0"
