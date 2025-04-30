@@ -1,5 +1,5 @@
 {
-  "name": "types",
+  "name": "@kakdela/types",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,8 +9,13 @@
     "email": "love.laf.command@gmail.com"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
+  "devDependencies": {
+		"@types/node": "catalog:",
+		"ts-node": "catalog:",
+		"typescript": "catalog:"
+	},
   "keywords": [],
   "license": "MIT"
 }
