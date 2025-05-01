@@ -65,6 +65,11 @@ export namespace KakDela {
   export namespace Database {
     export type DefaultOmit = "id"|"created_at"|"updated_at";
 
+    export const EXISTS_DATA = {
+      auth: [ "service_id" ] as const,
+      message: [] as const,
+      user: [ "username" ] as const
+    } as const;
     export const MODELS = [
       "auth",
       "message",

@@ -39,6 +39,7 @@ class Model<
 > {
   private readonly database: Database<Base>;
   private readonly _constructor_data: Create & Partial<Base>;
+  private readonly _exists_data: (typeof KakDela.Database.EXISTS_DATA)[ModelName];
   private _data: Base = <Base>{};
   private _initialized: boolean = false;
   
@@ -52,13 +53,18 @@ class Model<
       ...data
     };
     
+    this._exists_data = KakDela.Database.EXISTS_DATA[modelName];
     this.database = new Database<Base>(MODELS[modelName] as unknown as MongoModel<Base>);
   };
 
   public async init() {
     if (this._initialized) return this;
 
-    if (!this._constructor_data.id) {
+    const exists =
+      this._constructor_data.id
+      || !!(await this.database.model.findOne({ ...<Base>Object.fromEntries(this._exists_data.map(k => [k, (<any>this._constructor_data)[k]])) }));
+
+    if (!exists) {
       const createdModel = await this.database.model.create({ id: await this.database.generateId(), ...this._constructor_data });
       
       this._data = createdModel;
