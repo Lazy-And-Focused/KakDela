@@ -20,6 +20,8 @@ export namespace KakDela {
     id: string;
 
     username: string;
+
+    created_at: string; // ISO format
     
     avatar_url?: string;
     global_name?: string;
@@ -31,13 +33,14 @@ export namespace KakDela {
   export type AuthTypes = (typeof AUTH_TYPES)[number];
   export interface IAuth {
     id: string;
+    
     service_id: string;
     profile_id: string;
     
     access_token: string;
     refresh_token: string;
 
-    created_at: string;
+    created_at: string; // ISO format
 
     type: AuthTypes;
   };
@@ -53,6 +56,36 @@ export namespace KakDela {
     
     content: string;
 
+    created_at: string; // ISO format
+    updated_at: string; // ISO format
+
     attachments?: IAttachment[];
   };
-}
+
+  export namespace Database {
+    export type DefaultOmit = "id"|"created_at"|"updated_at";
+
+    export const MODELS = [
+      "auth",
+      "message",
+      "user"
+    ] as const;
+    export const DEFAULT = {
+      auth: {} as const,
+      user: {
+        avatar_url: undefined,
+        global_name: undefined
+      } as const,
+      
+      message: {
+        attachments: [] as const
+      } as const,
+    } as const;
+
+    export type CreateTypes = {
+      auth: Omit<KakDela.IAuth, DefaultOmit>,
+      message: Omit<KakDela.IMessage, DefaultOmit>,
+      user: Omit<KakDela.IUser, DefaultOmit>
+    }
+  }
+};

@@ -29,7 +29,7 @@ const userSchema = new Schema<KakDela.IUser>({
     },
 });
 
-const Model = mongoose.model('users', userSchema);
+const Model = mongoose.model('user', userSchema);
 
 export { Model as User, userSchema };
 

@@ -2,7 +2,7 @@ import passport = require("passport");
 import { Profile } from "passport";
 
 import { Auth } from "database/models/auth.model";
-import { User } from "database/models/users.model";
+import { User } from "database/models/user.model";
 import { Strategy, VerifyCallback, VerifyFunction } from "passport-oauth2";
 import { KakDela } from "@kakdela/types";
 

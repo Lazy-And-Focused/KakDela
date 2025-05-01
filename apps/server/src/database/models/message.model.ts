@@ -33,7 +33,7 @@ const messageSchema = new Schema<KakDela.IMessage>({
   }]
 });
 
-const Model = mongoose.model('messages', messageSchema);
+const Model = mongoose.model('message', messageSchema);
 
 export { Model as Message, messageSchema };
 
