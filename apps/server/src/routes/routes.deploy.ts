@@ -25,7 +25,9 @@ class Deployer {
         this.ReadFolder(join(path, file));
       } catch {
         if (dirName === parse(DIR_PATH).name) continue;
-        const relativePath = join(parse(path).dir.replace(DIR_EXCLUCE, ""), dirName).replaceAll("\\", "/");
+        const relativePath = join(parse(path).dir.replace(DIR_EXCLUCE, ""), dirName)
+          .replaceAll("\\", "/")
+          .replaceAll("//", "/");
 
         const fileIsRouter = parse(file).base === ROUTER_FILE_BASE;
         if (!fileIsRouter) continue;
