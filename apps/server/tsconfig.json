@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2024",
     "module": "CommonJS",
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
     "removeComments": true,
     "resolveJsonModule": true,
@@ -16,7 +16,6 @@
       "database/*": ["./src/database/*"],
       "routes/*": ["./src/routes/*"],
       "api/*": ["./src/api/*"],
-      "env": ["./src/env"]
     }
   },
   "include": ["./**/*.ts"]

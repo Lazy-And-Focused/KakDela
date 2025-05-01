@@ -1,8 +1,8 @@
 import { KakDela } from "@kakdela/types";
-import Env from "env";
+import Env from "api/env";
 
 class Api {
-  public readonly env = new Env().env;
+  public readonly env = new Env().getAllWithDefault();
 
   public getApi(type: Uppercase<KakDela.AuthTypes>) {
     return {

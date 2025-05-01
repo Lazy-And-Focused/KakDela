@@ -25,10 +25,10 @@ class Deployer {
 
         const fileIsRouter = parse(file).base === ROUTER_FILE_BASE;
         if (!fileIsRouter) continue;
-        
+
         const importedRouter = require(resolve(join(path, file))).default;
         
-        console.log(`Загрузка роутинга ${file} в ${relativePath}`)
+        console.log(`Загрузка роутинга ${file} в ${relativePath}`);
         this.router.use(relativePath, importedRouter);
       }
     };

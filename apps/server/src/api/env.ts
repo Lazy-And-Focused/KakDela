@@ -2,13 +2,17 @@ import { config } from "dotenv";
 
 config();
 
+import { KakDela } from "@kakdela/types";
+
 const REQUIRED = [
   "CLIENT_URL",
   "SESSION_SECRET",
   "MONGO_URL",
+  "HASH_KEY"
 ] as const;
 
-type Required = (typeof REQUIRED)[number];
+type AuthKeys = "CLIENT_ID"|"CLIENT_SECRET"|"CALLBACK_URL"|"API_URL";
+type Required = (typeof REQUIRED)[number] | `${Uppercase<KakDela.AuthTypes>}_${AuthKeys}`;
 
 const KEYS = [
   ...REQUIRED,
@@ -18,7 +22,7 @@ const KEYS = [
   "SAVE_UNINITIALISED",
 ] as const;
 
-type Keys = (typeof KEYS)[number];
+type Keys = (typeof KEYS)[number] | `${Uppercase<KakDela.AuthTypes>}_${AuthKeys}`;
 
 type Unrequired = Exclude<Keys, Required>;
 const DEFAULT: Record<Unrequired, string> = {
@@ -55,6 +59,18 @@ class Env {
           : false
       )
     ) as any;
+  }
+
+  public getAll() {
+    return Object.fromEntries(KEYS.map(k => {
+      return [k, this._env[k]];
+    })) as Record<Keys[number], string|undefined> & Record<Required[number], string>;
+  }
+
+  public getAllWithDefault() {
+    return Object.fromEntries(KEYS.map(k => {
+      return [k, this._env[k] || (<{[key: string]: string}>DEFAULT)[k]];
+    })) as Record<Keys[number], string>;
   }
 
   public get env() {

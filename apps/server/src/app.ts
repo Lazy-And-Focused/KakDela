@@ -1,4 +1,4 @@
-import Env from "./env";
+import Env from "./api/env";
 
 import router from "./routes";
 

@@ -20,7 +20,7 @@ class AuthApi {
   }
 
   private getMethod(): [boolean, { [key: string]: unknown; method: string; body: any }] {
-    if (!KakDela.AUTH_TYPES.includes(this._method as any)) {
+    if (!(<readonly string[]>KakDela.AUTH_TYPES).includes(this._method)) {
       const abbreviation = abbreviations.get(this._method)
       if (abbreviation) return [true, { body: null, method: abbreviation }];
 
