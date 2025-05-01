@@ -1,5 +1,5 @@
-import { Router } from "express";
+import Deployer from "./routes.deploy";
 
-const router = Router();
+const { router } = new Deployer().execute();
 
 export default router;

@@ -17,7 +17,7 @@ const api = new Api();
  * @third a scopes
  */
 const defaultPassports: [KakDela.AuthTypes, string, string[]?][] = [
-  ["discord", "passport-discord", ["profile"]],
+  ["discord", "passport-discord", ["identify"]],
 ];
 
 class Authenticator {
