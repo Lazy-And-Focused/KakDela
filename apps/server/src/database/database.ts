@@ -60,11 +60,17 @@ class Model<
   public async init() {
     if (this._initialized) return this;
 
-    const exists =
-      this._constructor_data.id
-      || !!(await this.database.model.findOne({ ...<Base>Object.fromEntries(this._exists_data.map(k => [k, (<any>this._constructor_data)[k]])) }));
+    const findedModel = (
+      await this.database.model
+        .findOne({ ...<Base>Object.fromEntries(
+          this._exists_data.map(k => [k, (<any>this._constructor_data)[k]]))
+        })
+    );
 
-    if (!exists) {
+    const id = this._constructor_data.id || findedModel?.id;
+
+    if (!id) {
+      console.log("Creating new model");
       const createdModel = await this.database.model.create({ id: await this.database.generateId(), ...this._constructor_data });
       
       this._data = createdModel;
@@ -73,9 +79,9 @@ class Model<
       return this;
     };
 
-    await this.database.model.updateOne({ id: this._constructor_data.id }, <any>this._constructor_data);
+    await this.database.model.updateOne({ id: id }, <any>this._constructor_data);
     
-    this._data = <Base>(await this.database.model.findOne({ id: this._constructor_data.id }));
+    this._data = <Base>(await this.database.model.findOne({ id: id }));
     this._initialized = true;
 
     return this;

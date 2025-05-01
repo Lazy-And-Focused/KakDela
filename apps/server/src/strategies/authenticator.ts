@@ -75,6 +75,8 @@ class Authenticator {
           username: profile.username || profile.name?.givenName || profile.displayName,
         }).init();
 
+        console.log(user);
+
         const { data: auth } = await new Model("auth", {
           access_token,
           refresh_token,
