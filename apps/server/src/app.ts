@@ -12,15 +12,15 @@ const env = new Env();
 const passport = new Passport();
 
 class Session {
-  public constructor(public readonly app: Express = express()) {};
+  public constructor() {};
 
   public create = () => {
-    this.app.use(session({
+    return session({
       secret: env.get("SESSION_SECRET"),
       resave: Boolean(env.get("RESAVE")),
       saveUninitialized: Boolean(env.get("SAVE_UNINITIALISED")),
       cookie: { maxAge: Number(env.get("COOKIE_AGE")) },
-    }));
+    });
   };
 };
 
@@ -39,10 +39,10 @@ class App {
   private init() {
     this.app.use(cors({  origin: [ env.get("CLIENT_URL") ], credentials: true }));
 
+    this.app.use(new Session().create());
+    
     this.app.use(express.json());
     this.app.use(express.urlencoded());
-
-    new Session(this.app);
     
     this.app.use(passport.session());
     this.app.use(passport.initialize());
