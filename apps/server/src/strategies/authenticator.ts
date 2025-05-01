@@ -30,6 +30,7 @@ class Authenticator {
   public init = () => {
     for (const passport of defaultPassports) {
       const strategy = require(passport[1]).Strategy;
+      console.log(`Инициализация ${passport[0]} стратегии через ${passport[1]}.`);
       this.strategy(strategy, {
         ...api.getApi(passport[0].toUpperCase() as Uppercase<KakDela.AuthTypes>),
         type: passport[0],

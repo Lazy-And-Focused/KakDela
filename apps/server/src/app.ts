@@ -2,11 +2,14 @@ import Env from "./api/env";
 
 import router from "./routes";
 
+import Passport from "./strategies";
+
 import express, { Express } from "express";
 import session from 'express-session';
 import cors from "cors";
 
 const env = new Env();
+const passport = new Passport();
 
 class Session {
   public constructor(public readonly app: Express = express()) {};
@@ -40,6 +43,9 @@ class App {
     this.app.use(express.urlencoded());
 
     new Session(this.app);
+    
+    this.app.use(passport.session());
+    this.app.use(passport.initialize());
 
     this.app.use("/", router);
   };
