@@ -62,15 +62,21 @@ class Env {
   }
 
   public getAll() {
-    return Object.fromEntries(KEYS.map(k => {
-      return [k, this._env[k]];
-    })) as Record<Keys[number], string|undefined> & Record<Required[number], string>;
+    return {
+      ...process.env,
+      ...Object.fromEntries(KEYS.map(k => {
+        return [k, this._env[k]];
+      }))
+    } as Record<Keys[number], string|undefined> & Record<Required[number], string>;
   }
 
   public getAllWithDefault() {
-    return Object.fromEntries(KEYS.map(k => {
-      return [k, this._env[k] || (<{[key: string]: string}>DEFAULT)[k]];
-    })) as Record<Keys[number], string>;
+    return {
+      ...process.env,
+      ...Object.fromEntries(KEYS.map(k => {
+        return [k, this._env[k] || (<{[key: string]: string}>DEFAULT)[k]];
+      }))
+    } as Record<Keys[number], string>;
   }
 
   public get env() {
