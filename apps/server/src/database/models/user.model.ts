@@ -10,7 +10,8 @@ const userSchema = new Schema<KakDela.IUser>({
     
     username: {
       type: mongoose.SchemaTypes.String,
-      required: true
+      required: true,
+      unique: true
     },
     
     created_at: {
