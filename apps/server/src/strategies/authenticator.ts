@@ -1,13 +1,11 @@
 import passport = require("passport");
 import { Profile } from "passport";
 
-import { Auth } from "database/models/auth.model";
-import { User } from "database/models/user.model";
 import { Strategy, VerifyCallback, VerifyFunction } from "passport-oauth2";
 import { KakDela } from "@kakdela/types";
 
 import Api from "api/index.api";
-import { generateId } from "database/utils";
+import { Model, Database } from "database/database";
 
 const api = new Api();
 
@@ -72,23 +70,18 @@ class Authenticator {
     return async (access_token: string, refresh_token: string, profile: Profile, done: Done) => {
       try {
         const { id } = profile;
-        const now = new Date().toISOString();
 
-        const user = await User.create(<KakDela.IUser>{
-          id: await generateId(User),
+        const { data: user } = await new Model("user", {
           username: profile.username || profile.name?.givenName || profile.displayName,
-          created_at: now
-        });
+        }).init();
 
-        const auth = await Auth.create(<KakDela.IAuth>{
-          id: await generateId(Auth),
+        const { data: auth } = await new Model("auth", {
           access_token,
           refresh_token,
           service_id: id,
           profile_id: user.id,
-          created_at: now,
           type: type
-        });
+        }).init();
 
         return done(null, {
           id: auth.id,

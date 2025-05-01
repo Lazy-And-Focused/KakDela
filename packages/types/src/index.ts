@@ -82,10 +82,16 @@ export namespace KakDela {
       } as const,
     } as const;
 
-    export type CreateTypes = {
-      auth: Omit<KakDela.IAuth, DefaultOmit>,
-      message: Omit<KakDela.IMessage, DefaultOmit>,
-      user: Omit<KakDela.IUser, DefaultOmit>
+    export type Base = {
+      auth: IAuth,
+      message: IMessage,
+      user: IUser,
+    }
+
+    export type Create = {
+      auth: Omit<IAuth, DefaultOmit>
+      message: Omit<IMessage, DefaultOmit>
+      user: Omit<IUser, DefaultOmit>
     }
   }
 };
