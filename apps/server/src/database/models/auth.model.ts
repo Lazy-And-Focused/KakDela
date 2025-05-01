@@ -18,6 +18,11 @@ const authSchema = new Schema<KakDela.IAuth>({
     type: mongoose.SchemaTypes.String,
     require: true,
   },
+
+  created_at: {
+    type: mongoose.SchemaTypes.String,
+    required: true
+  },
   
   access_token: {
     type: mongoose.SchemaTypes.String,

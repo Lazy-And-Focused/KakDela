@@ -18,6 +18,16 @@ const messageSchema = new Schema<KakDela.IMessage>({
     require: true
   },
 
+  created_at: {
+    type: mongoose.SchemaTypes.String,
+    required: true
+  },
+
+  updated_at: {
+    type: mongoose.SchemaTypes.String,
+    required: false
+  },
+
   attachments: [{
     type: mongoose.SchemaTypes.String
   }]

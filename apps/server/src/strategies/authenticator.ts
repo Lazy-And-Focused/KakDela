@@ -7,6 +7,7 @@ import { Strategy, VerifyCallback, VerifyFunction } from "passport-oauth2";
 import { KakDela } from "@kakdela/types";
 
 import Api from "api/index.api";
+import { generateId } from "database/utils";
 
 const api = new Api();
 
@@ -71,16 +72,21 @@ class Authenticator {
     return async (access_token: string, refresh_token: string, profile: Profile, done: Done) => {
       try {
         const { id } = profile;
+        const now = new Date().toISOString();
 
         const user = await User.create(<KakDela.IUser>{
-          username: profile.username || profile.name?.givenName || profile.displayName
+          id: await generateId(User),
+          username: profile.username || profile.name?.givenName || profile.displayName,
+          created_at: now
         });
 
         const auth = await Auth.create(<KakDela.IAuth>{
+          id: await generateId(Auth),
           access_token,
           refresh_token,
           service_id: id,
           profile_id: user.id,
+          created_at: now,
           type: type
         });
 

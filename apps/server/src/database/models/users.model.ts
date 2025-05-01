@@ -13,6 +13,11 @@ const userSchema = new Schema<KakDela.IUser>({
       required: true
     },
     
+    created_at: {
+      type: mongoose.SchemaTypes.String,
+      required: true
+    },
+
     global_name: {
       type: mongoose.SchemaTypes.String,
       required: false
