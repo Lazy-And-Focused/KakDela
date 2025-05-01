@@ -28,15 +28,43 @@ class Authenticator {
   }
 
   public init = () => {
+    console.log("Инициализация passport.");
+    const errors: {[key: string]: Error[]} = {};
+    let stack: number = 0;
+
     for (const passport of defaultPassports) {
-      const strategy = require(passport[1]).Strategy;
+      errors[passport[0]] = [];
+
       console.log(`Инициализация ${passport[0]} стратегии через ${passport[1]}.`);
-      this.strategy(strategy, {
-        ...api.getApi(passport[0].toUpperCase() as Uppercase<KakDela.AuthTypes>),
-        type: passport[0],
-        scopes: passport[2]
-      });
-    }
+      const strategy = require(passport[1]).Strategy;
+      
+      console.log("Загружаю API данные...");
+      const data = api.getApi(passport[0].toUpperCase() as Uppercase<KakDela.AuthTypes>);
+
+      if (!data.id) errors[passport[0]].push(new Error("Не найден id в API-данных " + passport[0] + "."));
+      if (!data.secret) errors[passport[0]].push(new Error("Не найден secret в API-данных " + passport[0] + "."));
+      if (!data.callback) errors[passport[0]].push(new Error("Не найден callback в API-данных " + passport[0] + "."));
+      if (!data.api) errors[passport[0]].push(new Error("Не найден api в API-данных " + passport[0] + "."));
+
+      try {
+        this.strategy(strategy, {
+          ...data,
+          type: passport[0],
+          scopes: passport[2]
+        });
+      } catch (error) {
+        errors[passport[0]].push(error as Error);        
+      }
+    };
+
+    Object.keys(errors).forEach(k => {
+      if (errors[k].length === 0) return;
+      stack++;
+
+      console.error(errors[k].map(e => e.message).join("\n"));
+    });
+
+    if (stack !== 0) throw new Error("Erros was found.");
   };
 
   protected verify<Done extends (...data: any) => void = VerifyCallback>(type: KakDela.AuthTypes) {
