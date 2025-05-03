@@ -1,0 +1,23 @@
+{
+  "name": "@kakdela/types",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "author": {
+    "name": "Lazy-And-Focused",
+    "url": "https://laf-info.netlify.app/",
+    "email": "love.laf.command@gmail.com"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+		"@types/node": "catalog:",
+		"ts-node": "catalog:",
+		"typescript": "catalog:"
+	},
+  "keywords": [],
+  "license": "MIT"
+}
