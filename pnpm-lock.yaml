@@ -41,7 +41,74 @@ importers:
 
   .: {}
 
-  apps/client:
+  apps/backend:
+    dependencies:
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
+      express:
+        specifier: ^4.19.2
+        version: 4.21.2
+      express-session:
+        specifier: ^1.18.0
+        version: 1.18.1
+      mongoose:
+        specifier: 'catalog:'
+        version: 8.14.1
+      passport:
+        specifier: ^0.7.0
+        version: 0.7.0
+      passport-discord:
+        specifier: ^0.1.4
+        version: 0.1.4
+      passport-oauth2:
+        specifier: ^1.8.0
+        version: 1.8.0
+    devDependencies:
+      '@kakdela/types':
+        specifier: workspace:^
+        version: link:../../packages/types
+      '@types/cors':
+        specifier: ^2.8.17
+        version: 2.8.17
+      '@types/express':
+        specifier: ^4.17.21
+        version: 4.17.21
+      '@types/express-session':
+        specifier: ^1.18.0
+        version: 1.18.1
+      '@types/node':
+        specifier: 'catalog:'
+        version: 20.17.32
+      '@types/passport':
+        specifier: ^1.0.16
+        version: 1.0.17
+      '@types/passport-discord':
+        specifier: ^0.1.13
+        version: 0.1.14
+      '@types/passport-oauth2':
+        specifier: ^1.4.16
+        version: 1.4.17
+      dotenv:
+        specifier: 'catalog:'
+        version: 16.5.0
+      nodemon:
+        specifier: 'catalog:'
+        version: 3.1.10
+      ts-node:
+        specifier: 'catalog:'
+        version: 10.9.2(@types/node@20.17.32)(typescript@5.7.3)
+      tsc-alias:
+        specifier: 'catalog:'
+        version: 1.8.15
+      tsconfig-paths:
+        specifier: 'catalog:'
+        version: 4.2.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.3
+
+  apps/frontend:
     dependencies:
       '@remix-run/node':
         specifier: ^2.16.5
@@ -116,73 +183,6 @@ importers:
       vite-tsconfig-paths:
         specifier: ^4.2.1
         version: 4.3.2(typescript@5.7.3)(vite@5.4.19(@types/node@20.17.32))
-
-  apps/server:
-    dependencies:
-      cors:
-        specifier: ^2.8.5
-        version: 2.8.5
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      express-session:
-        specifier: ^1.18.0
-        version: 1.18.1
-      mongoose:
-        specifier: 'catalog:'
-        version: 8.14.1
-      passport:
-        specifier: ^0.7.0
-        version: 0.7.0
-      passport-discord:
-        specifier: ^0.1.4
-        version: 0.1.4
-      passport-oauth2:
-        specifier: ^1.8.0
-        version: 1.8.0
-    devDependencies:
-      '@kakdela/types':
-        specifier: workspace:^
-        version: link:../../packages/types
-      '@types/cors':
-        specifier: ^2.8.17
-        version: 2.8.17
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
-      '@types/express-session':
-        specifier: ^1.18.0
-        version: 1.18.1
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.17.32
-      '@types/passport':
-        specifier: ^1.0.16
-        version: 1.0.17
-      '@types/passport-discord':
-        specifier: ^0.1.13
-        version: 0.1.14
-      '@types/passport-oauth2':
-        specifier: ^1.4.16
-        version: 1.4.17
-      dotenv:
-        specifier: 'catalog:'
-        version: 16.5.0
-      nodemon:
-        specifier: 'catalog:'
-        version: 3.1.10
-      ts-node:
-        specifier: 'catalog:'
-        version: 10.9.2(@types/node@20.17.32)(typescript@5.7.3)
-      tsc-alias:
-        specifier: 'catalog:'
-        version: 1.8.15
-      tsconfig-paths:
-        specifier: 'catalog:'
-        version: 4.2.0
-      typescript:
-        specifier: 'catalog:'
-        version: 5.7.3
 
   packages/prettier-config-laf:
     dependencies:
