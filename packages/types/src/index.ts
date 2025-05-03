@@ -13,15 +13,13 @@ export namespace KakDela.Response {
 };
 
 export namespace KakDela {
-  /* 
-    ACCOUNTS
-  */
   export interface IUser {
     id: string;
 
     username: string;
 
-    created_at: string; // ISO format
+    /** ISO format */
+    created_at: string;
     
     avatar_url?: string;
     global_name?: string;
@@ -40,41 +38,51 @@ export namespace KakDela {
     access_token: string;
     refresh_token: string;
 
-    created_at: string; // ISO format
+    /** ISO format */
+    created_at: string;
 
     type: AuthTypes;
   };
 
-  /* 
-    MESSAGES
-  */
- export type IAttachment = string; // URL to attachment
+  /** URL to attachment */
+  export type IAttachment = string;
  
- export interface IMessage {
+  export interface IMessage {
     id: string;
     author_id: string;
     
     content: string;
 
-    created_at: string; // ISO format
-    updated_at: string; // ISO format
+    /** ISO format */
+    created_at: string;
+    /** ISO format */
+    updated_at: string;
 
-    attachments?: IAttachment[];
+    attachments: IAttachment[];
   };
+
+  export interface IChat {
+    id: string;
+    owner_id: string;
+
+    members: string[];
+  }
 
   export namespace Database {
     export type DefaultOmit = "id"|"created_at"|"updated_at";
 
-    export const EXISTS_DATA = {
-      auth: [ "service_id" ] as const,
-      message: [] as const,
-      user: [ "username" ] as const
-    } as const;
     export const MODELS = [
       "auth",
       "message",
       "user"
     ] as const;
+
+    export const EXISTS_CHECKING_KEYS = {
+      auth: [ "service_id" ] as const,
+      message: [] as const,
+      user: [ "username" ] as const
+    } as const;
+    
     export const DEFAULT = {
       auth: {} as const,
       user: {
@@ -97,6 +105,68 @@ export namespace KakDela {
       auth: Omit<IAuth, DefaultOmit>
       message: Omit<IMessage, DefaultOmit>
       user: Omit<IUser, DefaultOmit>
+    }
+  }
+
+  export namespace Rights {
+    export type Right<T extends string> = Record<T, bigint>;
+
+    export namespace Types {
+      export interface Default {
+
+      }
+    };
+
+    export namespace Constants {
+      export namespace My {
+        // prettier-ignore-start
+        export const DEFAULT = {
+          USER:              1n << 0n,
+          
+          READ_MESSAGES:     1n << 1n,
+          CREATE_MESSAGES:   1n << 2n,
+          CHANGE_MESSAGE:    1n << 3n,
+          DELETE_MESSAGE:    1n << 4n,
+  
+          JOIN_CHATS:        1n << 5n,
+          CREATE_CHATS:      1n << 6n,
+  
+          READ_ACCOUNTS:     1n << 7n,
+  
+          ADMINISTATOR:      1n << 8n,
+          BANNED:            1n << 9n,
+        } as const;
+  
+        export const AVAILABLE = {
+          USER:              1n << 0n,
+          
+          READ_MESSAGES:     1n << 1n,
+          CREATE_MESSAGES:   1n << 2n,
+          READ_ACCOUNTS:     1n << 7n,
+          JOIN_CHATS:        1n << 5n,
+          CREATE_CHATS:      1n << 6n,
+  
+          CHANGE_MESSAGE:    0n << 3n,
+          DELETE_MESSAGE:    0n << 4n,
+          ADMINISTATOR:      0n << 8n,
+          BANNED:            0n << 9n,
+        } as const;
+        // prettier-ignore-end
+      }
+
+      export namespace Messages {
+        export const DEFAULT = {
+          CREATOR:           1n << 10n,
+  
+          READ:              1n << 11n,
+          CHANGE:            1n << 12n,
+          DELETE:            1n << 13n,
+          
+          REACT:             1n << 14n,
+          REPLY:             1n << 15n,
+          FORWARD:           1n << 16n,
+        }
+      }
     }
   }
 };
