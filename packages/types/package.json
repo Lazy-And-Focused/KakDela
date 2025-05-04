@@ -11,7 +11,7 @@
     "email": "love.laf.command@gmail.com"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && pnpm run test",
     "test": "ts-mocha --paths ./test/**/*.test.ts"
   },
   "devDependencies": {
