@@ -3,21 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "types": "./dist/index.d.ts",
-  "exports": "./dist/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": "./dist/src/index.js",
   "author": {
     "name": "Lazy-And-Focused",
     "url": "https://laf-info.netlify.app/",
     "email": "love.laf.command@gmail.com"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "ts-mocha --paths ./test/**/*.test.ts"
   },
   "devDependencies": {
-		"@types/node": "catalog:",
-		"ts-node": "catalog:",
-		"typescript": "catalog:"
-	},
+    "@types/mocha": "^10.0.10",
+    "@types/node": "catalog:",
+    "mocha": "^11.2.2",
+    "ts-mocha": "^11.1.0",
+    "ts-node": "catalog:",
+    "typescript": "catalog:"
+  },
   "keywords": [],
   "license": "MIT"
 }

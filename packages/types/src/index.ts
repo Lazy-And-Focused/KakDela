@@ -109,63 +109,125 @@ export namespace KakDela {
   }
 
   export namespace Rights {
-    export type Right<T extends string> = Record<T, bigint>;
+    export class Builder<T extends string> {
+      public constructor(public readonly rights: (T[]|Readonly<T[]>)) {};
+
+      /**
+       * starts with offset bigint
+       * @example
+       * input: offset = 10n
+       * 
+       * output: rights = {
+       *   someRight1: 1n << 10n,
+       *   someRight2: 1n << 11n
+       *   ...
+       * }
+       * 
+       * @param [exclude=[]] prioritet in filters
+       * @example
+       * input:
+       * exclude = ["someRight1", "someRight2"]
+       * include = ["someRight1", "someRight3"]
+       * 
+       * output = {
+       *   someRight1: 0n << 0n,
+       *   someRight2: 0n << 1n,
+       *   someRight3: 1n << 2n
+       * }
+       */
+      public execute(
+        offset: bigint|({[key: string]: bigint}|{readonly [key: string]: bigint}) = 0n,
+        exclude: (T[]|readonly T[]) = [],
+        include?: (T[]|readonly T[]),
+      ): Record<T, bigint> {
+        return Object.fromEntries(this.rights.map((right, index) => {
+          const modifier = (this.resolveOffset(offset) + BigInt(index));
+          
+          if (include && !include.includes(right)) return [right, 0n << modifier];
+          if (exclude.includes(right)) return [right, 0n << modifier];
+
+          return [right, 1n << modifier];
+        })) as Record<T, bigint>;
+      };
+
+      private logarithm2(bigint: bigint): bigint {
+        return BigInt(bigint.toString(2).length-1);
+      };
+
+      private max(...values: bigint[]): bigint {
+        return values.toSorted((a, b) => {
+          if (a > b) {
+            return 1;
+          } else if (a < b){
+            return -1;
+          } else {
+            return 0;
+          }
+        }).toReversed()[0];
+      };
+
+      private resolveOffset(offset: bigint|({[key: string]: bigint}|{ readonly [key: string]: bigint})): bigint {
+        if (typeof offset === "bigint") return offset;
+
+        const keys = Object.keys(offset);
+
+        if (keys.length === 0) return 0n;
+        return this.logarithm2(this.max(...keys.map((key) => offset[key]))) + 1n;
+      }
+    };
 
     export namespace Types {
-      export interface Default {
-
-      }
+      export type My = Record<(typeof Rights.Constants.My.ALL)[number], bigint>;
+      export type Message = Record<(typeof Rights.Constants.Message.ALL)[number], bigint>;
     };
 
     export namespace Constants {
       export namespace My {
-        // prettier-ignore-start
-        export const DEFAULT = {
-          USER:              1n << 0n,
+        export const ALL = [
+          "USER",
           
-          READ_MESSAGES:     1n << 1n,
-          CREATE_MESSAGES:   1n << 2n,
-          CHANGE_MESSAGE:    1n << 3n,
-          DELETE_MESSAGE:    1n << 4n,
-  
-          JOIN_CHATS:        1n << 5n,
-          CREATE_CHATS:      1n << 6n,
-  
-          READ_ACCOUNTS:     1n << 7n,
-  
-          ADMINISTATOR:      1n << 8n,
-          BANNED:            1n << 9n,
-        } as const;
-  
-        export const AVAILABLE = {
-          USER:              1n << 0n,
+          "READ_MESSAGES",
+          "CREATE_MESSAGES",
+          "CHANGE_MESSAGE",
+          "DELETE_MESSAGE",
           
-          READ_MESSAGES:     1n << 1n,
-          CREATE_MESSAGES:   1n << 2n,
-          READ_ACCOUNTS:     1n << 7n,
-          JOIN_CHATS:        1n << 5n,
-          CREATE_CHATS:      1n << 6n,
-  
-          CHANGE_MESSAGE:    0n << 3n,
-          DELETE_MESSAGE:    0n << 4n,
-          ADMINISTATOR:      0n << 8n,
-          BANNED:            0n << 9n,
-        } as const;
-        // prettier-ignore-end
+          "JOIN_CHATS",
+          "CREATE_CHATS",
+          
+          "READ_ACCOUNTS",
+          "ADMINISTATOR",
+          "BANNED"
+        ] as const;
+        export const EXCLUDE = [
+          "CHANGE_MESSAGE",
+          "DELETE_MESSAGE",
+          "ADMINISTATOR",
+          "BANNED"
+        ] as const;
+
+        export const DEFAULT: Types.My = new Builder(My.ALL).execute(0n);
+        export const AVAILABLE: Types.My = new Builder(My.ALL).execute(0n, My.EXCLUDE);
       }
 
-      export namespace Messages {
-        export const DEFAULT = {
-          CREATOR:           1n << 10n,
-  
-          READ:              1n << 11n,
-          CHANGE:            1n << 12n,
-          DELETE:            1n << 13n,
-          
-          REACT:             1n << 14n,
-          REPLY:             1n << 15n,
-          FORWARD:           1n << 16n,
-        }
+      export namespace Message {
+        export const ALL = [
+          "CREATOR",
+          "READ",
+          "CHANGE",
+          "DELETE",
+          "REACT",
+          "REPLY",
+          "FORWARD"
+        ] as const;
+
+        export const EXCLUDE = [
+          "CREATOR",
+          "CHANGE",
+          "DELETE"
+        ] as const;
+
+        export const DEFAULT: Types.Message = new Builder(Message.ALL).execute(My.DEFAULT);
+        export const AVAILABLE: Types.Message = new Builder(Message.ALL).execute(My.DEFAULT, Message.EXCLUDE);
       }
     }
   }
