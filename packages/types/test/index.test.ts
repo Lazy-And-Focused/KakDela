@@ -4,7 +4,7 @@ import { KakDela } from "../src";
 type IObject<T extends string = string> = Record<T, bigint>;
 
 const executeObject = (actual: IObject, expected: IObject) => {
-  Object.keys(actual).forEach(key => {
+  Object.keys(actual).forEach((key) => {
     it(`Ключ "${key}" должен содержать "${actual[key]}"`, () => {
       assert.equal(actual[key], expected[key]);
     });
@@ -12,14 +12,16 @@ const executeObject = (actual: IObject, expected: IObject) => {
 };
 
 const executeRights = <T extends string[] = string[]>({
-  actual, exclude, rights
+  actual,
+  exclude,
+  rights,
 }: {
-  actual: IObject<T[number]>,
-  exclude: T | Readonly<T>,
+  actual: IObject<T[number]>;
+  exclude: T | Readonly<T>;
   rights: {
-    default: IObject,
-    available: IObject
-  }
+    default: IObject;
+    available: IObject;
+  };
 }) => {
   describe("Default", () => {
     const expected: IObject = rights.default;
@@ -32,9 +34,14 @@ const executeRights = <T extends string[] = string[]>({
     const expected: IObject = rights.available;
 
     executeObject(
-      Object.fromEntries(Object.keys(actual).map(k => [
-        k, exclude.includes(k) ? 0n : (<IObject>actual)[k]
-    ])), expected);
+      Object.fromEntries(
+        Object.keys(actual).map((k) => [
+          k,
+          exclude.includes(k) ? 0n : (<IObject>actual)[k],
+        ]),
+      ),
+      expected,
+    );
   });
 };
 
@@ -51,16 +58,16 @@ describe("Rights.Constants", () => {
         DELETE_MESSAGES: 1n << 6n,
         JOIN_CHATS: 1n << 7n,
         CREATE_CHATS: 1n << 8n,
-        READ_ACCOUNTS: 1n << 9n
+        READ_ACCOUNTS: 1n << 9n,
       },
       exclude: KakDela.Rights.Constants.My.EXCLUDE,
       rights: {
         default: KakDela.Rights.Constants.My.DEFAULT,
-        available: KakDela.Rights.Constants.My.AVAILABLE
-      }
+        available: KakDela.Rights.Constants.My.AVAILABLE,
+      },
     });
   });
-  
+
   describe("User", () => {
     executeRights({
       actual: <KakDela.Rights.Types.User>{
@@ -79,8 +86,8 @@ describe("Rights.Constants", () => {
       exclude: KakDela.Rights.Constants.User.EXCLUDE,
       rights: {
         default: KakDela.Rights.Constants.User.DEFAULT,
-        available: KakDela.Rights.Constants.User.AVAILABLE
-      }
+        available: KakDela.Rights.Constants.User.AVAILABLE,
+      },
     });
   });
 
@@ -100,8 +107,8 @@ describe("Rights.Constants", () => {
       exclude: KakDela.Rights.Constants.Chat.EXCLUDE,
       rights: {
         default: KakDela.Rights.Constants.Chat.DEFAULT,
-        available: KakDela.Rights.Constants.Chat.AVAILABLE
-      }
+        available: KakDela.Rights.Constants.Chat.AVAILABLE,
+      },
     });
   });
 });
