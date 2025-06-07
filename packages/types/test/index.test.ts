@@ -1,7 +1,6 @@
 import assert from "assert";
 
 import { KakDela } from "../src";
-
 type IObject<T extends string = string> = Record<T, bigint>;
 
 const executeObject = (actual: IObject, expected: IObject) => {
@@ -44,15 +43,15 @@ describe("Rights.Constants", () => {
     executeRights({
       actual: <KakDela.Rights.Types.My>{
         USER: 1n << 0n,
-        READ_MESSAGES: 1n << 1n,
-        CREATE_MESSAGES: 1n << 2n,
-        CHANGE_MESSAGE: 1n << 3n,
-        DELETE_MESSAGE: 1n << 4n,
-        JOIN_CHATS: 1n << 5n,
-        CREATE_CHATS: 1n << 6n,
-        READ_ACCOUNTS: 1n << 7n,
-        ADMINISTATOR: 1n << 8n,
-        BANNED: 1n << 9n
+        ADMINISTATOR: 1n << 1n,
+        BANNED: 1n << 2n,
+        CREATE_MESSAGES: 1n << 3n,
+        CHANGE_MESSAGES: 1n << 4n,
+        READ_MESSAGES: 1n << 5n,
+        DELETE_MESSAGES: 1n << 6n,
+        JOIN_CHATS: 1n << 7n,
+        CREATE_CHATS: 1n << 8n,
+        READ_ACCOUNTS: 1n << 9n
       },
       exclude: KakDela.Rights.Constants.My.EXCLUDE,
       rights: {
@@ -62,21 +61,46 @@ describe("Rights.Constants", () => {
     });
   });
   
-  describe("Message", () => {
+  describe("User", () => {
     executeRights({
-      actual: <KakDela.Rights.Types.Message>{
-        CREATOR: 1n << 10n,
-        READ: 1n << 11n,
-        CHANGE: 1n << 12n,
-        DELETE: 1n << 13n,
-        REACT: 1n << 14n,
-        REPLY: 1n << 15n,
-        FORWARD: 1n << 16n
+      actual: <KakDela.Rights.Types.User>{
+        CHANGE_MESSAGES: 1n << 10n,
+        DELETE_MESSAGES: 1n << 11n,
+        FORWARD_MESSAGES: 1n << 12n,
+        REACT_MESSAGES: 1n << 13n,
+        READ_MESSAGES: 1n << 14n,
+        SEND_MESSAGES: 1n << 15n,
+        SEND_GIFS: 1n << 16n,
+        SEND_PHOTOS: 1n << 17n,
+        SEND_STICKERS: 1n << 18n,
+        SEND_VIDEOS: 1n << 19n,
+        SEND_VOICE_MESSAGES: 1n << 20n,
       },
-      exclude: KakDela.Rights.Constants.Message.EXCLUDE,
+      exclude: KakDela.Rights.Constants.User.EXCLUDE,
       rights: {
-        default: KakDela.Rights.Constants.Message.DEFAULT,
-        available: KakDela.Rights.Constants.Message.AVAILABLE
+        default: KakDela.Rights.Constants.User.DEFAULT,
+        available: KakDela.Rights.Constants.User.AVAILABLE
+      }
+    });
+  });
+
+  describe("Chat", () => {
+    executeRights({
+      actual: <KakDela.Rights.Types.Chat>{
+        CREATOR: 1n << 21n,
+        ADMINISTATOR: 1n << 22n,
+        BANNED: 1n << 23n,
+        VIEW: 1n << 24n,
+        CREATE_INVITE_LINKS: 1n << 25n,
+        VIEW_MEMBERS: 1n << 26n,
+        KICK_MEMBERS: 1n << 27n,
+        BAN_MEMBERS: 1n << 28n,
+        RESTRICT_MEMBERS: 1n << 29n,
+      },
+      exclude: KakDela.Rights.Constants.Chat.EXCLUDE,
+      rights: {
+        default: KakDela.Rights.Constants.Chat.DEFAULT,
+        available: KakDela.Rights.Constants.Chat.AVAILABLE
       }
     });
   });
