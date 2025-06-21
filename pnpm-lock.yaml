@@ -30,6 +30,10 @@ importers:
         version: 3.5.3
 
   packages/types:
+    dependencies:
+      fbit-field:
+        specifier: 1.4.0-alpha.1
+        version: 1.4.0-alpha.1
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.10
@@ -199,6 +203,9 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  fbit-field@1.4.0-alpha.1:
+    resolution: {integrity: sha512-3iF3VoP4/SrGT/Hco6wlI0nIeIly7wfgHz1w60zCbyEgh4U6dPpm/flSoJabSKa6FA1xVJd/Lk+IxrbXD2PGXw==}
 
   find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
@@ -586,6 +593,8 @@ snapshots:
   escalade@3.2.0: {}
 
   escape-string-regexp@4.0.0: {}
+
+  fbit-field@1.4.0-alpha.1: {}
 
   find-up@5.0.0:
     dependencies:

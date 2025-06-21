@@ -1,4 +1,5 @@
-import { RightsBuilder } from "./rights";
+import { BitBuilder } from "fbit-field";
+import { Compiler } from "fbit-field/compiler";
 
 export namespace KakDela.Response {
   export type IResponse<T, K = null> =
@@ -6,7 +7,7 @@ export namespace KakDela.Response {
         successed: false;
 
         data: K;
-        error: string;
+        error: Error;
       }
     | {
         successed: true;
@@ -16,83 +17,227 @@ export namespace KakDela.Response {
       };
 }
 
+type Right<T extends string[] | readonly string[]> = Record<T[number], bigint>;
+
 export namespace KakDela.Rights {
-  export namespace Types {
-    export type My = Record<(typeof Rights.Constants.My.ALL)[number], bigint>;
-    export type User = Record<(typeof Rights.Constants.User.ALL)[number], bigint>;
-    export type Chat = Record<(typeof Rights.Constants.Chat.ALL)[number], bigint>;
+  export type My = Right<typeof My.ALL>;
+  export namespace My {
+    export const EXCLUDE = [
+      "CHANGE_MESSAGES",
+      "DELETE_MESSAGES",
+      "ADMINISTATOR",
+      "BANNED",
+    ] as const;
+    export const ALL = [
+      ...EXCLUDE,
+      "USER",
+      "CREATE_MESSAGES",
+      "READ_MESSAGES",
+      "JOIN_CHATS",
+      "CREATE_CHATS",
+      "READ_ACCOUNTS",
+    ] as const;
+
+    const builder = new BitBuilder(My.ALL);
+
+    export const DEFAULT: My = builder.execute(0n);
+    export const AVAILABLE: My = builder.execute(0n, My.EXCLUDE);
+    export const RAW_DEFAULT = builder.resolve(DEFAULT);
+    export const RAW_AVAILABLE = builder.resolve(AVAILABLE);
   }
 
-  export namespace Constants {
-    export namespace My {
-      export const ALL = [
-        "USER",
-        "ADMINISTATOR",
-        "BANNED",
-        "CREATE_MESSAGES",
-        "CHANGE_MESSAGES",
-        "READ_MESSAGES",
-        "DELETE_MESSAGES",
-        "JOIN_CHATS",
-        "CREATE_CHATS",
-        "READ_ACCOUNTS",
-      ] as const;
-      export const EXCLUDE = [
-        "CHANGE_MESSAGES",
-        "DELETE_MESSAGES",
-        "ADMINISTATOR",
-        "BANNED",
-      ] as const;
+  export type User = Right<typeof User.ALL>;
+  export namespace User {
+    export const EXCLUDE = ["CHANGE_MESSAGES", "DELETE_MESSAGES"] as const;
+    export const ALL = [
+      ...EXCLUDE,
+      "FORWARD_MESSAGES",
+      "REACT_MESSAGES",
+      "READ_MESSAGES",
+      "SEND_MESSAGES",
+      "SEND_GIFS",
+      "SEND_PHOTOS",
+      "SEND_STICKERS",
+      "SEND_VIDEOS",
+      "SEND_VOICE_MESSAGES",
+    ] as const;
 
-      export const DEFAULT: Types.My = new RightsBuilder(My.ALL).execute(0n);
-      export const AVAILABLE: Types.My = new RightsBuilder(My.ALL).execute(0n, My.EXCLUDE);
-    }
+    const builder = new BitBuilder(ALL);
 
-    export namespace User {
-      export const ALL = [
-        "CHANGE_MESSAGES",
-        "DELETE_MESSAGES",
-        "FORWARD_MESSAGES",
-        "REACT_MESSAGES",
-        "READ_MESSAGES",
-        "SEND_MESSAGES",
-        "SEND_GIFS",
-        "SEND_PHOTOS",
-        "SEND_STICKERS",
-        "SEND_VIDEOS",
-        "SEND_VOICE_MESSAGES",
-      ] as const;
-      export const EXCLUDE = [
-        "CHANGE_MESSAGES",
-        "DELETE_MESSAGES"
-      ] as const;
-
-      export const DEFAULT: Types.User = new RightsBuilder(User.ALL).execute(My.DEFAULT,);
-      export const AVAILABLE: Types.User = new RightsBuilder(User.ALL).execute(My.DEFAULT, User.EXCLUDE);
-    }
-
-    export namespace Chat {
-      export const ALL = [
-        "CREATOR",
-        "ADMINISTATOR",
-        "BANNED",
-        "VIEW",
-        "CREATE_INVITE_LINKS",
-        "VIEW_MEMBERS",
-        "KICK_MEMBERS",
-        "BAN_MEMBERS",
-        "RESTRICT_MEMBERS",
-      ] as const;
-      export const EXCLUDE = [
-        "KICK_MEMBERS",
-        "BAN_MEMBERS",
-        "RESTRICT_MEMBERS",
-      ] as const;
-
-      export const DEFAULT: Types.Chat = new RightsBuilder(Chat.ALL).execute(User.DEFAULT);
-      export const AVAILABLE: Types.Chat = new RightsBuilder(Chat.ALL).execute(User.DEFAULT, Chat.EXCLUDE);
-    }
+    export const DEFAULT: User = builder.execute(My.DEFAULT);
+    export const AVAILABLE: User = builder.execute(My.DEFAULT, User.EXCLUDE);
+    export const RAW_DEFAULT = builder.resolve(DEFAULT);
+    export const RAW_AVAILABLE = builder.resolve(AVAILABLE);
   }
+
+  export type Chat = Right<typeof Chat.ALL>;
+  export namespace Chat {
+    export const EXCLUDE = [
+      "CREATOR",
+      "ADMINISTATOR",
+      "BANNED",
+      "KICK_MEMBERS",
+      "BAN_MEMBERS",
+      "RESTRICT_MEMBERS",
+      "CREATE_INVITE_LINKS",
+      "VIEW_MEMBERS",
+    ] as const;
+    export const ALL = [...EXCLUDE, "VIEW"] as const;
+
+    const builder = new BitBuilder(ALL);
+
+    export const DEFAULT: Chat = builder.execute(User.DEFAULT);
+    export const AVAILABLE: Chat = builder.execute(User.DEFAULT, Chat.EXCLUDE);
+    export const RAW_DEFAULT = builder.resolve(DEFAULT);
+    export const RAW_AVAILABLE = builder.resolve(AVAILABLE);
+  }
+
+  export const CONSTANTS = {
+    raw: {
+      default: {
+        my: My.RAW_DEFAULT,
+        user: User.RAW_DEFAULT,
+        chat: Chat.RAW_DEFAULT,
+      } as const,
+
+      available: {
+        my: My.RAW_AVAILABLE,
+        user: User.RAW_AVAILABLE,
+        chat: Chat.RAW_AVAILABLE,
+      } as const,
+    } as const,
+
+    object: {
+      default: {
+        my: My.DEFAULT,
+        user: User.DEFAULT,
+        chat: Chat.DEFAULT,
+      } as const,
+
+      available: {
+        my: My.AVAILABLE,
+        user: User.AVAILABLE,
+        chat: Chat.AVAILABLE,
+      } as const,
+    } as const,
+  } as const;
+
+  // ## { COMPILED__WRITE_COMPILED_HERE } ## \\
+
+  /**
+   * - this file was auto genereted by compiler
+   * - if you see inconsistencies: https://github.com/FOCKUSTY/bit-field/issues
+   */
+  export const raw = {
+    my: {
+      /** @value 1 */
+      changeMessages: 1n << 0n,
+
+      /** @value 2 */
+      deleteMessages: 1n << 1n,
+
+      /** @value 4 */
+      administator: 1n << 2n,
+
+      /** @value 8 */
+      banned: 1n << 3n,
+
+      /** @value 16 */
+      user: 1n << 4n,
+
+      /** @value 32 */
+      createMessages: 1n << 5n,
+
+      /** @value 64 */
+      readMessages: 1n << 6n,
+
+      /** @value 128 */
+      joinChats: 1n << 7n,
+
+      /** @value 256 */
+      createChats: 1n << 8n,
+
+      /** @value 512 */
+      readAccounts: 1n << 9n,
+    } as const,
+
+    user: {
+      /** @value 1024 */
+      changeMessages: 1n << 10n,
+
+      /** @value 2048 */
+      deleteMessages: 1n << 11n,
+
+      /** @value 4096 */
+      forwardMessages: 1n << 12n,
+
+      /** @value 8192 */
+      reactMessages: 1n << 13n,
+
+      /** @value 16384 */
+      readMessages: 1n << 14n,
+
+      /** @value 32768 */
+      sendMessages: 1n << 15n,
+
+      /** @value 65536 */
+      sendGifs: 1n << 16n,
+
+      /** @value 131072 */
+      sendPhotos: 1n << 17n,
+
+      /** @value 262144 */
+      sendStickers: 1n << 18n,
+
+      /** @value 524288 */
+      sendVideos: 1n << 19n,
+
+      /** @value 1048576 */
+      sendVoiceMessages: 1n << 20n,
+    } as const,
+
+    chat: {
+      /** @value 2097152 */
+      creator: 1n << 21n,
+
+      /** @value 4194304 */
+      administator: 1n << 22n,
+
+      /** @value 8388608 */
+      banned: 1n << 23n,
+
+      /** @value 16777216 */
+      kickMembers: 1n << 24n,
+
+      /** @value 33554432 */
+      banMembers: 1n << 25n,
+
+      /** @value 67108864 */
+      restrictMembers: 1n << 26n,
+
+      /** @value 134217728 */
+      createInviteLinks: 1n << 27n,
+
+      /** @value 268435456 */
+      viewMembers: 1n << 28n,
+
+      /** @value 536870912 */
+      view: 1n << 29n,
+    } as const,
+  } as const;
+  // ## { COMPILED__WRITE_COMPILED_HERE } ## \\
+  export namespace Raw {
+    // ## { COMPILED__WRITE_EXPORT_HERE } ## \\
+
+    export type Keys = keyof typeof raw;
+    export type Raw<T extends Keys> = (typeof raw)[T];
+    export type RawKeys<T extends Keys> = keyof Raw<T>;
+    // ## { COMPILED__WRITE_EXPORT_HERE } ## \\
+  }
+
+  export type Keys = keyof typeof CONSTANTS.object.available;
+  export type Rights<T extends Keys> =
+    keyof (typeof CONSTANTS.object.available)[T];
 }
 
 export namespace KakDela {
@@ -107,8 +252,9 @@ export namespace KakDela {
     avatar_url?: string;
     global_name?: string;
 
-    /** bigint */
+    /** @type {bigint} */
     rights: string;
+    /** @key {user_id} @value {bigint} */
     users: Map<string, string>;
   }
 
@@ -152,6 +298,7 @@ export namespace KakDela {
 
     members: string[];
 
+    /** @key {member id} @value {bigint} */
     rights: Map<string, string>;
   }
 
@@ -190,4 +337,28 @@ export namespace KakDela {
       user: Omit<IUser, DefaultOmit>;
     };
   }
+}
+
+if ((process.env.NODE_ENV = "rights_compiler")) {
+  const rights = Object.fromEntries(
+    (
+      Object.keys(
+        KakDela.Rights.CONSTANTS.object.available,
+      ) as KakDela.Rights.Keys[]
+    ).map((key) => [
+      key,
+      Object.keys(KakDela.Rights.CONSTANTS.object.available[key]),
+    ]),
+  );
+
+  new Compiler(
+    rights,
+    __dirname + "\\index.ts",
+    {},
+    {
+      writeInCompiler: true,
+      name: "raw",
+      defaultExportOn: false,
+    },
+  ).execute();
 }
