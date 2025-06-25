@@ -70,11 +70,14 @@ class Database<T extends { id: string }, K = Partial<T>> {
     return data;
   };
 
-  public delete = (filter: Filter<T>) => {
-    return this._model.deleteOne({ ...filter });
-  };
+  // В рабочем чате @FOCKUSTY предложил удалить метод во избежании ошибок во время билда
+  // public delete = (filter: Filter<T>) => {
+  //   return this._model.deleteOne({ ...filter });
+  // };
 
-  public getData = (options: FindOptions<T>): Promise<KakDela.Response.IResponse<T[]>> => {
+  public getData = (
+    options: FindOptions<T>
+  ): Promise<KakDela.Response.IResponse<T[]>> => {
     return Helpers.getData<T>(this._model, options);
   };
 
