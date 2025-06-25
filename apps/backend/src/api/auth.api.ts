@@ -1,11 +1,11 @@
 import { Next, Req, Res } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
 
-import { AUTH_TYPES, AuthTypes, IAuthUser } from "types/auth-user.type"
+import { KakDela } from "@kakdela/types";
 
 import passport = require("passport");
 
-const abbreviations: Map<string,AuthTypes> = new Map();
+const abbreviations: Map<string, KakDela.AuthTypes> = new Map();
 
 class AuthApi {
   private readonly _method: string;
@@ -17,12 +17,12 @@ class AuthApi {
   static get methods(): Record<"abbreviations" | "methods", readonly string[]> {
     return {
       abbreviations: Array.from(abbreviations.keys()),
-      methods: AUTH_TYPES
+      methods: KakDela.AUTH_TYPES
     };
   }
 
   private getMethod(): [boolean, { [key: string]: unknown; method: string; body: unknown }] {
-    if (!(AUTH_TYPES as unknown as string[]).includes(this._method)) {
+    if (!(KakDela.AUTH_TYPES as unknown as string[]).includes(this._method)) {
       if (abbreviations.get(this._method))
         return [true, { body: null, method: abbreviations.get(this._method) }];
 
@@ -31,7 +31,7 @@ class AuthApi {
         {
           body: {
             msg: "Sorry, but method " + this._method + " not found. Try next:",
-            methods:AUTH_TYPES
+            methods:KakDela.AUTH_TYPES
           },
           method: this._method
         }
@@ -54,7 +54,7 @@ class AuthApi {
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
-    callback: (...args: [unknown, IAuthUser | null, unknown]) => unknown
+    callback: (...args: [unknown, KakDela.IAuth | null, unknown]) => unknown
   ): unknown {
     const [successed, { method, body }] = this.getMethod();
 
