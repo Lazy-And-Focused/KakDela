@@ -24,6 +24,8 @@ const REQUIRED = [
   "DISCORD_CALLBACK_URL",
   "DISCORD_API_URL",
 
+  "HASH_KEY",
+
   "SESSION_SECRET"
 ] as const;
 
