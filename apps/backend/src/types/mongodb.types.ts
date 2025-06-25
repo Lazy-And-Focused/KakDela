@@ -13,6 +13,8 @@ import type {
 import { SCHEMAS } from "database/schemas";
 import mongoose from "mongoose";
 
+export { DeleteResult } from "mongoose";
+
 export type Model = keyof typeof SCHEMAS;
 export type Filter<T> = FilterQuery<T>;
 export type Update<T> = UpdateQuery<T> | UpdateWithAggregationPipeline;

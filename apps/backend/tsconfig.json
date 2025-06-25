@@ -23,6 +23,8 @@
       "types": ["./src/types"],
       "env": ["./src/env"],
       "api/*": ["./src/api/*"],
+      "guards/*": ["./src/guards/*"],
+      "decorators/*": ["./src/decorators/*"],
       "database/*": ["./src/database/*"],
       "types/*": ["./src/types/*"],
       "env/*": ["./src/env/*"],

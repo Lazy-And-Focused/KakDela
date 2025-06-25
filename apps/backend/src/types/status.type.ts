@@ -1,4 +1,4 @@
-export class SelfError<T> {
+export class SelfError<T=null> {
   public readonly successed: false = false;
   public readonly error: Error;
   public readonly resource: T;
