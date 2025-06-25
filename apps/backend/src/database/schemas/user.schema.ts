@@ -1,7 +1,7 @@
 import mongoose, { Schema, SchemaTypes } from "mongoose";
 import { SchemaParameters } from "types/mongodb.types";
 
-import type { KakDela } from "@kakdela/types";
+import { KakDela } from "@kakdela/types";
 
 const data: SchemaParameters<KakDela.IUser> = {
   id: {
@@ -16,8 +16,8 @@ const data: SchemaParameters<KakDela.IUser> = {
 
   created_at: { type: SchemaTypes.String, required: true, unique: false },
 
-  // rights?
-  // users?
+  rights: { type: SchemaTypes.String, default: KakDela.Rights.CONSTANTS.raw.default.my.toString() },
+  users: { type: SchemaTypes.Map, default: new Map<string, string>() }
 };
 const keys = Object.keys(data);
 const schema = new Schema<KakDela.IUser>(data);
