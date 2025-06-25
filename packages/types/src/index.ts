@@ -1,20 +1,112 @@
+import { UpdateWriteOpResult, DeleteResult } from "mongoose";
 import { BitBuilder } from "fbit-field";
-import { Compiler } from "fbit-field/compiler";
 
 export namespace KakDela.Response {
-  export type IResponse<T, K = null> =
+  export type IResponse<T, K = null> = {
+    text: string;
+  } & (
     | {
         successed: false;
 
-        data: K;
+        resource: K;
         error: Error;
       }
     | {
         successed: true;
 
-        data: T;
+        resource: T;
         error: null;
-      };
+      }
+  );
+
+  export type DataType = Exclude<keyof Database.Base, "auth">;
+
+  export type GetData<T> = {
+    type: DataType;
+  } & (
+    | {
+        successed: false;
+        resource: null;
+        error: unknown;
+      }
+    | {
+        successed: true;
+        resource: T;
+        error: null;
+      }
+  );
+
+  export type CreateData<T> = {
+    type: DataType;
+    date: string;
+  } & (
+    | {
+        successed: true;
+        created_resource: T;
+        error: null;
+      }
+    | {
+        successed: false;
+        created_resource: null;
+        error: unknown;
+      }
+  );
+
+  export type ChangeDataSuccessed<T> = {
+    type: DataType;
+    date: string;
+    successed: true;
+    error: null;
+  } & (
+    | {
+        changed_resource: UpdateWriteOpResult;
+        changed_resource_type: "update";
+      }
+    | {
+        changed_resource: T;
+        changed_resource_type: "resource";
+      }
+  );
+
+  export type ChangeData<T> = {
+    type: DataType;
+    date: string;
+  } & (
+    | {
+        successed: false;
+        changed_resource: null;
+        error: unknown;
+      }
+    | ChangeDataSuccessed<T>
+  );
+
+  export type DeleteDataSuccessed<T> = {
+    type: DataType;
+    successed: boolean;
+    error: null;
+    date: string;
+  } & (
+    | {
+        deleted_resource_type: "delete";
+        deleted_resource: DeleteResult;
+      }
+    | {
+        deleted_resource_type: "resource";
+        deleted_resource: T;
+      }
+  );
+
+  export type DeleteData<T> = {
+    type: DataType;
+    date: string;
+  } & (
+    | {
+        successed: false;
+        deleted_resource: null;
+        error: unknown;
+      }
+    | DeleteDataSuccessed<T>
+  );
 }
 
 type Right<T extends string[] | readonly string[]> = Record<T[number], bigint>;
@@ -337,28 +429,4 @@ export namespace KakDela {
       user: Omit<IUser, DefaultOmit>;
     };
   }
-}
-
-if ((process.env.NODE_ENV = "rights_compiler")) {
-  const rights = Object.fromEntries(
-    (
-      Object.keys(
-        KakDela.Rights.CONSTANTS.object.available,
-      ) as KakDela.Rights.Keys[]
-    ).map((key) => [
-      key,
-      Object.keys(KakDela.Rights.CONSTANTS.object.available[key]),
-    ]),
-  );
-
-  new Compiler(
-    rights,
-    __dirname + "\\index.ts",
-    {},
-    {
-      writeInCompiler: true,
-      name: "raw",
-      defaultExportOn: false,
-    },
-  ).execute();
 }

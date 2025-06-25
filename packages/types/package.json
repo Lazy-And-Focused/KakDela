@@ -11,8 +11,10 @@
     "email": "love.laf.command@gmail.com"
   },
   "scripts": {
-    "compile": "set NODE_ENV=rights_compiler&& ts-node ./src/index.ts",
-    "build": "pnpm run compile && tsc && pnpm run test",
+    "build": "pnpm run compile && tsc && tsc-alias && pnpm run format && pnpm run remove-compiler",
+    "compile": "set NODE_ENV=rights_compile&& ts-node ./src/compiler.ts",
+    "format": "prettier ./src/index.ts -c -w",
+    "remove-compiler": "rimraf ./dist/compiler.d.ts && rimraf ./dist/compiler.js",
     "test": "ts-mocha --paths ./src/test/**/*.test.ts"
   },
   "devDependencies": {
@@ -20,12 +22,14 @@
     "@types/node": "catalog:",
     "mocha": "^11.2.2",
     "ts-mocha": "^11.1.0",
+    "rimraf": "^6.0.1",
+    "mongoose": "catalog:",
     "ts-node": "catalog:",
     "typescript": "catalog:"
   },
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "fbit-field": "1.4.0-alpha.1"
+    "fbit-field": "1.4.0-alpha.1b"
   }
 }
