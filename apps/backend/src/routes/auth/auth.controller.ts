@@ -6,6 +6,7 @@ import AuthApi from "api/auth.api";
 import Api from "api/index.api";
 
 import { AUTH_CONTROLLER, AUTH_ROUTES } from "./auth.routes";
+import { IToken } from "types/auth.types";
 
 const api = new Api();
 
@@ -41,7 +42,11 @@ export class AuthController {
 
       res.cookie(
         `${user.id}:${user.profile_id}`,
-        `${new Hash().execute(user.access_token)}`
+        JSON.stringify(<IToken>{
+          token: new Hash().execute(user.access_token),
+          user_id: user.id,
+          profile_id: user.profile_id
+        })
       );
       res.redirect(api.env.CLIENT_URL);
     });

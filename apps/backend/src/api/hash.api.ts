@@ -34,8 +34,8 @@ class Hash {
     if (typeof token !== "string" && !token.headers.token)
       return PARSE_ERROR;
  
-    const [id, profile_id, hash] =
-      typeof token === "string" ? token.split("-") : token.headers.token.toString().split("-");
+    const { user_id: id, profile_id, token: hash } =
+      typeof token === "string" ? JSON.parse(token) : JSON.parse(token.headers.token.toString());
 
     if (!id || !hash || !profile_id)
       return PARSE_ERROR;
