@@ -1,20 +1,22 @@
-import Auth from "database/models/auth.model";
+import { MODELS } from "database/schemas";
 
 import passport = require("passport");
 
 import Authenticator from "./authenticator";
 import { KakDela } from "@kakdela/types";
 
+const { Auth } = MODELS;
+
 class GeneralStrategy {
   protected readonly _passport: passport.PassportStatic = passport;
   private readonly _authenticator: Authenticator;
 
   public constructor() {
-    this._authenticator = new Authenticator(this._passport);
-
     this.serializer();
-  }
 
+    this._authenticator = new Authenticator(this._passport);
+  }
+  
   public readonly initialize = () => {
     return this._passport.initialize();
   };
@@ -32,15 +34,27 @@ class GeneralStrategy {
   }
 
   private serializer() {
-    this._passport.serializeUser((user: Express.User, done) => {
-      return done(null, user);
+    this._passport.serializeUser((user: KakDela.IAuth, done) => {
+      return done(null, {
+        id: user.id,
+        profile_id: user.profile_id,
+        service_id: user.service_id,
+
+        access_token: user.access_token,
+        refresh_token: user.refresh_token,
+
+        created_at: user.created_at,
+        type: user.type
+      });
     });
 
     this._passport.deserializeUser(async (u: string, done) => {
       try {
-        const user = await Auth.findOne({
-          id: u,
-        });
+        const user = (await Auth.findOne({
+          where: {
+            id: u
+          }
+        })).toObject();
 
         return user
           ? done(null, {
@@ -52,8 +66,8 @@ class GeneralStrategy {
               refresh_token: user.refresh_token,
 
               created_at: user.created_at,
-              type: user.type,
-            } as unknown as KakDela.IUser)
+              type: user.type
+            } as KakDela.IAuth)
           : done(null, null);
       } catch (err) {
         console.error(err);

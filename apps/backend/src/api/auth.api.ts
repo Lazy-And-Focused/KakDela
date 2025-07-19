@@ -1,5 +1,7 @@
-import { KakDela } from "@kakdela/types";
+import { Next, Req, Res } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
+
+import { KakDela } from "@kakdela/types";
 
 import passport = require("passport");
 
@@ -19,27 +21,26 @@ class AuthApi {
     };
   }
 
-  private getMethod(): [boolean, { [key: string]: unknown; method: string; body: any }] {
-    if (!(<readonly string[]>KakDela.AUTH_TYPES).includes(this._method)) {
-      const abbreviation = abbreviations.get(this._method)
-      if (abbreviation) return [true, { body: null, method: abbreviation }];
+  private getMethod(): [boolean, { [key: string]: unknown; method: string; body: unknown }] {
+    if (!(KakDela.AUTH_TYPES as unknown as string[]).includes(this._method)) {
+      if (abbreviations.get(this._method))
+        return [true, { body: null, method: abbreviations.get(this._method) }];
 
       return [
         false,
         {
           body: {
             msg: "Sorry, but method " + this._method + " not found. Try next:",
-            methods: KakDela.AUTH_TYPES
+            methods:KakDela.AUTH_TYPES
           },
           method: this._method
         }
       ];
-    };
-
+    }
     return [true, { body: null, method: this._method }];
   }
 
-  public auth(req: Request, res: Response, next: NextFunction): unknown {
+  public auth(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction): unknown {
     const [successed, { method, body }] = this.getMethod();
 
     if (!successed) return res.send(body);
@@ -50,10 +51,10 @@ class AuthApi {
   }
 
   public callback(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-    callback: (...args: [any, KakDela.IAuth | null, any]) => any
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+    callback: (...args: [unknown, KakDela.IAuth | null, unknown]) => unknown
   ): unknown {
     const [successed, { method, body }] = this.getMethod();
 

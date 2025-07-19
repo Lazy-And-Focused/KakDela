@@ -1,10 +1,22 @@
 import type { MetaFunction } from "@remix-run/node";
+<<<<<<< HEAD
 import {  Link, useLoaderData } from "@remix-run/react";
 import { CiLogin } from "react-icons/ci";
+=======
+import { LoginForm } from "~/components/login-form"
+
+export async function loader() {
+  return {
+    ENV: {
+      API_URL: process.env.API_URL,
+    },
+  };
+}
+>>>>>>> frontend--add-shadcn-ui
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Чат + Discord Auth" },
+    { title: "KakDela 👀" },
     {
       name: "description",
       content: "Пет-проект для обучения работе в команде…",
@@ -25,6 +37,7 @@ export default function Index() {
 
 
   return (
+<<<<<<< HEAD
     <div className="h-full w-full flex justify-center items-center">
       <div className="p-8 flex flex-col items-center justify-center rounded-xl bg-slate-200 dark:bg-slate-800 text-center">
         <h1 className="mb-4 text-4xl text-black dark:text-white">
@@ -38,6 +51,11 @@ export default function Index() {
           <p>Авторизоваться</p>
           <CiLogin size={24} />
         </Link>
+=======
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm">
+        <LoginForm />
+>>>>>>> frontend--add-shadcn-ui
       </div>
     </div>
   );

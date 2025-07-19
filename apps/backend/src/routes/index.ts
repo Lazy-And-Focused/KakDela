@@ -1,5 +1,7 @@
-import Deployer from "./routes.deploy";
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
 
-const { router } = new Deployer().execute();
-
-export default router;
+export const modules = [
+  AuthModule,
+  UsersModule
+] as const;
