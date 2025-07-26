@@ -10,10 +10,6 @@ body {
     color-scheme: dark;
   }
 }
-<<<<<<< HEAD
-=======
-
-
 
 @layer base {
   :root {
@@ -71,8 +67,6 @@ body {
   }
 }
 
-
-
 @layer base {
   * {
     @apply border-border;
@@ -81,4 +75,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
->>>>>>> frontend--add-shadcn-ui
