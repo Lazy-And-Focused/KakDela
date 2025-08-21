@@ -29,7 +29,7 @@ export const links: LinksFunction = () => [
   },
   {
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+    href: 'https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&family=Ubuntu+Sans+Mono:ital,wght@0,400..700;1,400..700&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap',
   },
 ];
 
@@ -61,7 +61,7 @@ export function App() {
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
-      <body className='h-screen'>
+      <body className='h-screen bg-[var(--background)]'>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
