@@ -61,7 +61,7 @@ export function App() {
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
-      <body className='h-screen bg-[--background]'>
+      <body className='h-screen'>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
