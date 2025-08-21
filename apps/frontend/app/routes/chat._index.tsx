@@ -1,6 +1,10 @@
 import type { MetaFunction } from '@remix-run/node';
 
-import { SidebarProvider } from '~/components/ui/sidebar';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '~/components/ui/sidebar';
 import { AppSidebar } from '~/components/app-sidebar';
 
 export const meta: MetaFunction = () => {
@@ -9,16 +13,13 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className='mx-auto my-0 grid h-full w-full max-w-7xl grid-cols-12 items-center justify-center gap-8 p-8'>
-      <SidebarProvider>
-        <AppSidebar />
-      </SidebarProvider>
-
-      <div className='col-span-8 flex h-full flex-col justify-end gap-4 rounded-2xl p-2'>
-        <p className='max-w-max rounded-full rounded-bl-sm bg-slate-200/50 p-2 dark:bg-slate-800/50'>
-          Bla-bla-bla: hello and goodbay!
-        </p>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar variant='' />
+      <SidebarInset>
+        <header className='bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4'>
+          <SidebarTrigger />
+        </header>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
