@@ -12,4 +12,22 @@ export const users: User[] = [
     tag: 'fockusty',
     bio: { first: 'FOCKUSTY' },
   },
+  {
+    id: 2,
+    avatar: 'https://laf-team.ru/images/avatars/default.webp',
+    tag: 'lafomax',
+    bio: {},
+  },
+  {
+    id: 3,
+    avatar: 'https://laf-team.ru/images/avatars/default.webp',
+    tag: 'lafomax',
+    bio: {},
+  },
+  {
+    id: 4,
+    avatar: 'https://laf-team.ru/images/avatars/default.webp',
+    tag: 'lafomax',
+    bio: {},
+  },
 ];

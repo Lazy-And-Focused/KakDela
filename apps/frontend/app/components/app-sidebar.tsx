@@ -9,10 +9,13 @@ import {
   SidebarHeader,
   SidebarGroupLabel,
   SidebarGroupContent,
+  SidebarRail,
 } from '~/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
-import { Link } from '@remix-run/react';
+import { data, Link } from '@remix-run/react';
 import { self } from '~/mockup/self-user';
+import { NavUser } from './nav-user';
+import { Users } from 'lucide-react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const chats = [...self.chats.values()];
@@ -60,9 +63,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       {chat.type === 'single' ? (
                         <>
                           <Avatar className='col-span-1'>
-                            <AvatarImage
-                              src={chat.user.avatar}
-                            />
+                            <AvatarImage src={chat.user.avatar} />
                             <AvatarFallback>
                               {chat.user.bio?.first?.at(0) || '!'}
                               {chat.user.bio?.last?.at(0) || '!'}
@@ -79,18 +80,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         </>
                       ) : (
                         <>
-                          <div className='flex flex-col -space-y-2 *:data-[slot=avatar]:h-6 *:data-[slot=avatar]:w-6'>
-                            {chat.users.map((user) => (
-                              <Avatar key={user.id}>
-                                <AvatarImage
-                                  src={user.avatar}
-                                />
-                                <AvatarFallback>
-                                  {user.bio?.first?.at(0) || '!'}
-                                  {user.bio?.last?.at(0) || '!'}
-                                </AvatarFallback>
-                              </Avatar>
-                            ))}
+                          <div className='col-span-1'>
+                            <Avatar className='col-span-1'>
+                              <AvatarFallback>
+                                <Users className='size-4' />
+                              </AvatarFallback>
+                            </Avatar>
                           </div>
                           <div className='col-span-4 flex flex-col'>
                             <span className='text-primary/70 font-medium'>
@@ -111,6 +106,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
 
+      <SidebarFooter>
+        <NavUser user={self} />
+      </SidebarFooter>
+      <SidebarRail />
       <SidebarFooter />
     </Sidebar>
   );
