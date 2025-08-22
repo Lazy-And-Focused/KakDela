@@ -1,7 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { LoginForm } from '~/components/login-form';
-import { useLoaderData } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
   return [

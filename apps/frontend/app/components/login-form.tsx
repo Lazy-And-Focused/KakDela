@@ -7,13 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui/card';
+import { Form } from '@remix-run/react';
 
 export function LoginForm({
   className,
   formAction,
   ...props
 }: React.ComponentPropsWithoutRef<'div'> & {
-  formAction: () => void;
+  formAction: string;
 }) {
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -25,11 +26,11 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={formAction}>
+          <Form action={formAction}>
             <Button type='submit' className='w-full'>
               Войти через Discord
             </Button>
-          </form>
+          </Form>
         </CardContent>
       </Card>
     </div>

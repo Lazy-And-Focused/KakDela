@@ -12,47 +12,11 @@ import {
 } from '~/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Link } from '@remix-run/react';
-
-const chats = [
-  {
-    id: 0,
-    type: 'single',
-    user: {
-      username: 'lanvalird',
-      firstName: 'Valentin',
-      lastName: 'Bird',
-    },
-  },
-  {
-    id: 1,
-    type: 'single',
-    user: {
-      username: 'fockusty',
-      firstName: 'FOCKUSTY',
-      lastName: '',
-    },
-  },
-
-  {
-    id: 2,
-    type: 'group',
-    name: 'Рабочий чат',
-    users: [
-      {
-        username: 'lanvalird',
-        firstName: 'Valentin',
-        lastName: 'Bird',
-      },
-      {
-        username: 'fockusty',
-        firstName: 'FOCKUSTY',
-        lastName: '',
-      },
-    ],
-  },
-];
+import { self } from '~/mockup/self-user';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const chats = [...self.chats.values()];
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>KakDela</SidebarHeader>
@@ -97,19 +61,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <>
                           <Avatar className='col-span-1'>
                             <AvatarImage
-                              src={`https://github.com/${chat.user.username}.png`}
+                              src={chat.user.avatar}
                             />
                             <AvatarFallback>
-                              {chat.user.firstName[0] || '!'}
-                              {chat.user.lastName[0] || '!'}
+                              {chat.user.bio?.first?.at(0) || '!'}
+                              {chat.user.bio?.last?.at(0) || '!'}
                             </AvatarFallback>
                           </Avatar>
                           <div className='col-span-4 flex flex-col'>
                             <span className='text-primary/70 font-medium'>
-                              {chat.user.firstName} {chat.user.lastName}
+                              {chat.user.bio?.first} {chat.user.bio?.last}
                             </span>
                             <span className='text-primary/70 italic'>
-                              Пиши через @{chat.user.username}
+                              Пиши через @{chat.user.tag}
                             </span>
                           </div>
                         </>
@@ -117,13 +81,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <>
                           <div className='flex flex-col -space-y-2 *:data-[slot=avatar]:h-6 *:data-[slot=avatar]:w-6'>
                             {chat.users.map((user) => (
-                              <Avatar>
+                              <Avatar key={user.id}>
                                 <AvatarImage
-                                  src={`https://github.com/${user.username}.png`}
+                                  src={user.avatar}
                                 />
                                 <AvatarFallback>
-                                  {user.firstName[0] || '!'}
-                                  {user.lastName[0] || '!'}
+                                  {user.bio?.first?.at(0) || '!'}
+                                  {user.bio?.last?.at(0) || '!'}
                                 </AvatarFallback>
                               </Avatar>
                             ))}

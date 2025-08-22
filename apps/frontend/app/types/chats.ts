@@ -12,7 +12,7 @@ export type Chat<T extends ChatTypes> = DataBaseObject & {
     ? { user: User }
     : {
         name: string;
-        users: Map<number, User>;
+        users: User[];
       });
 
 export type AnyChat = {
